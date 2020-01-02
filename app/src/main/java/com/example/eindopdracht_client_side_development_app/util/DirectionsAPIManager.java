@@ -54,7 +54,7 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
         String url = "http://145.48.6.80:3000/directions?"
                 + "origin=" + startLocation.latitude + "," + startLocation.longitude
                 + "&destination=" + endLocation.latitude + "," + endLocation.longitude
-                + "&mode=walking"
+                + "&mode=driving"
                 + "&key=" + this.context.getResources().getString(R.string.google_directions_key);
 
         return url;

@@ -56,7 +56,7 @@ public class LocationAPIManager
     {
         this.fushedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity.getApplicationContext());
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(5000).setFastestInterval(5000).setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(500).setFastestInterval(500).setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         LocationCallback locationCallback = new LocationCallback()
         {

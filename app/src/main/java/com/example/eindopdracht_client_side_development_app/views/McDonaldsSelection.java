@@ -42,11 +42,11 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         //this.mcDonaldsList = this.databaseHandler.getAllGames();
 
         this.mcDonaldsList = new ArrayList<McDonalds>();
-        this.mcDonaldsList.add(new McDonalds(0, "Address1", "0612345678", new LatLng(50.40, 4.50)));
-        this.mcDonaldsList.add(new McDonalds(1, "Address2", "0612345678", new LatLng(51.40, 4.60)));
+        this.mcDonaldsList.add(new McDonalds(0, "Beneluxweg 1A, 4904 SJ Oosterhout", "0162 432 458", new LatLng(51.626340, 4.869013)));
+        this.mcDonaldsList.add(new McDonalds(1, "Innovatiepark 5, 4906 AA Oosterhout", "0162 495 066", new LatLng(51.673810, 4.824350)));
 
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
-        this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList);
+        this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList, getApplicationContext());
 
         this.recyclerView.setAdapter(this.mcDonaldsAdapter);
 

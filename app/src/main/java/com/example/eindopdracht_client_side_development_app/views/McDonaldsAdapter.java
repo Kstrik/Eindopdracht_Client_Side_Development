@@ -1,5 +1,6 @@
 package com.example.eindopdracht_client_side_development_app.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -22,10 +23,12 @@ import java.util.ArrayList;
 public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDonaldsViewHolder>
 {
     private ArrayList<McDonalds> dataset;
+    private Context context;
 
-    public McDonaldsAdapter(ArrayList<McDonalds> dataset)
+    public McDonaldsAdapter(ArrayList<McDonalds> dataset, Context context)
     {
         this.dataset = dataset;
+        this.context = context;
     }
 
     private ViewGroup parent;
@@ -46,7 +49,7 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
     {
         final McDonalds mcDonalds = dataset.get(position);
         holder.address.setText(mcDonalds.getAddress());
-        holder.phoneNumber.setText(mcDonalds.getPhoneNumber());
+        holder.phoneNumber.setText(this.context.getString(R.string.phonenumber) + " " + mcDonalds.getPhoneNumber());
 
         final FloatingActionButton favoriteButton = holder.favoriteButton;
         favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);

@@ -11,7 +11,8 @@ public class MapUtils
 {
     public static Pair<LatLng, LatLng> getClosestLine(ArrayList<LatLng> pathSegment, LatLng point)
     {
-        Pair<LatLng, LatLng> closestLine = new Pair<LatLng, LatLng>(new LatLng(0, 0), new LatLng(0, 0));
+        //Pair<LatLng, LatLng> closestLine = new Pair<LatLng, LatLng>(new LatLng(0, 0), new LatLng(0, 0));
+        Pair<LatLng, LatLng> closestLine = null;
         double closestDistance = 999999999;
 
         for(int i = 0; i <= pathSegment.size() - 2; i++)
