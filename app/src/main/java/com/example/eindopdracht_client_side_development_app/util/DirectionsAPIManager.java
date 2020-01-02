@@ -10,7 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.eindopdracht_client_side_development_app.R;
-import com.example.eindopdracht_client_side_development_app.models.Objective;
+import com.example.eindopdracht_client_side_development_app.models.McDonalds;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -24,10 +24,6 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
     private Context context;
     private RequestQueue requestQueue;
 
-    private ArrayList<Objective> objectives;
-    private ArrayList<LatLng> locations;
-    private int currentObjectiveIndex;
-
     private LatLng northEastBoundary;
     private LatLng southWestBoundary;
 
@@ -38,18 +34,12 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
         this.context = context;
         this.requestQueue = Volley.newRequestQueue(context);
 
-        this.objectives = new ArrayList<Objective>();
-        this.locations = new ArrayList<LatLng>();
-        this.currentObjectiveIndex = 0;
-
         this.directionsAPIListener = directionsAPIListener;
     }
 
-    public void requestRoute(ArrayList<Objective> objectives)
+    public void requestRoute(LatLng userLocation, McDonalds mcDonalds)
     {
-        reset();
-        this.objectives.addAll(objectives);
-        sendRequest(Request.Method.GET, getUrlForWaypoints(this.objectives.get(this.currentObjectiveIndex), this.objectives.get(this.currentObjectiveIndex + 1)));
+        sendRequest(Request.Method.GET, getUrlForWaypoints(userLocation, ));
     }
 
     private void sendRequest(int method, String url)
@@ -59,22 +49,15 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
         this.requestQueue.add(jsonRequest);
     }
 
-    private String getUrlForWaypoints(Objective objectiveA, Objective objectiveB)
+    private String getUrlForWaypoints(LatLng startLocation, LatLng endLocation)
     {
         String url = "http://145.48.6.80:3000/directions?"
-                + "origin=" + objectiveA.getLocation().latitude + "," + objectiveA.getLocation().longitude
-                + "&destination=" + objectiveB.getLocation().latitude + "," + objectiveB.getLocation().longitude
+                + "origin=" + startLocation.latitude + "," + startLocation.longitude
+                + "&destination=" + endLocation.latitude + "," + endLocation.longitude
                 + "&mode=walking"
                 + "&key=" + this.context.getResources().getString(R.string.google_directions_key);
 
         return url;
-    }
-
-    private void reset()
-    {
-        this.objectives.clear();
-        this.locations.clear();
-        this.currentObjectiveIndex = 0;
     }
 
     @Override
@@ -83,6 +66,8 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
         JSONObject jsonObject = (JSONObject)response;
         try
         {
+            ArrayList<LatLng> locations = new ArrayList<LatLng>();
+
             if(jsonObject.getString("status").toLowerCase().equals("ok"))
             {
                 JSONArray routes = jsonObject.getJSONArray("routes");
@@ -103,31 +88,16 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
                     JSONObject startLocation = step.getJSONObject("start_location");
                     JSONObject endLocation = step.getJSONObject("end_location");
 
-                    LatLng lastLocation = (this.locations.size() != 0) ? (this.locations.get(this.locations.size() - 1)) : null;
+                    LatLng lastLocation = (locations.size() != 0) ? (locations.get(locations.size() - 1)) : null;
                     if(lastLocation == null)
-                        this.locations.add(new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng")));
-                    this.locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
+                        locations.add(new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng")));
+                    locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
                 }
 
-                if(this.currentObjectiveIndex == 0)
-                {
-                    this.northEastBoundary = northEastBound;
-                    this.southWestBoundary = southWestBound;
-                }
-                else
-                {
-                    if(northEastBound.latitude > this.northEastBoundary.latitude || northEastBound.longitude < this.northEastBoundary.longitude)
-                        this.northEastBoundary = northEastBound;
-                    if(southWestBound.latitude > this.southWestBoundary.latitude || southWestBound.longitude < this.southWestBoundary.longitude)
-                        this.southWestBoundary = southWestBound;
-                }
+                this.northEastBoundary = northEastBound;
+                this.southWestBoundary = southWestBound;
 
-                this.currentObjectiveIndex++;
-
-                if(this.currentObjectiveIndex == this.objectives.size() - 1)
-                    this.directionsAPIListener.onRouteAvailable(this.locations, this.objectives, this.northEastBoundary, this.southWestBoundary);
-                else
-                    sendRequest(Request.Method.GET, getUrlForWaypoints(this.objectives.get(this.currentObjectiveIndex), this.objectives.get(this.currentObjectiveIndex + 1)));
+                this.directionsAPIListener.onRouteAvailable(locations, this.northEastBoundary, this.southWestBoundary);
             }
         }
         catch (JSONException e)
@@ -139,6 +109,6 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
     @Override
     public void onErrorResponse(VolleyError error)
     {
-        String test = "";
+
     }
 }
