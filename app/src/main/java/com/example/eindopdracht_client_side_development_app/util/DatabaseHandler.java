@@ -38,6 +38,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
     }
 
+<<<<<<< HEAD
     public boolean addMcDonalds(Game game)
     {
         if(gameExists(game))
@@ -57,6 +58,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
     }
 
 
+=======
+>>>>>>> Database
 
     public static DatabaseHandler getInstance(@Nullable Context context, @Nullable String name)
     {
