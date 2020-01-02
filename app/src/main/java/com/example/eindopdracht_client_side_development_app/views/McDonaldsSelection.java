@@ -30,8 +30,6 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     private EditText searchMcDonaldsEditText;
     private LocationAPIManager locationAPIManager;
 
-    private LatLng lastLocation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,6 +41,10 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         //this.databaseHandler = DatabaseHandler.getInstance(getApplicationContext(), "GameDB");
         //this.mcDonaldsList = this.databaseHandler.getAllGames();
 
+        this.mcDonaldsList = new ArrayList<McDonalds>();
+        this.mcDonaldsList.add(new McDonalds(0, "Address1", "0612345678", new LatLng(50.40, 4.50)));
+        this.mcDonaldsList.add(new McDonalds(1, "Address2", "0612345678", new LatLng(51.40, 4.60)));
+
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
         this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList);
 
@@ -50,29 +52,38 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
         this.locationAPIManager = LocationAPIManager.getInstance(this);
         this.locationAPIManager.setLocationAPIListener(this);
+        this.locationAPIManager.requestLastLocation();
     }
 
     public void onSearchInRangeClick(View view)
     {
         try
         {
-            double range = Double.parseDouble(this.searchMcDonaldsEditText.getText().toString()) / 1000;
+            String searchText = this.searchMcDonaldsEditText.getText().toString();
 
-            LatLng currentLocation = new LatLng(this.lastLocation.latitude, this.lastLocation.longitude);
-            ArrayList<McDonalds> mcDonaldsInRangeList = new ArrayList<McDonalds>();
-            for(McDonalds mcDonalds : this.mcDonaldsList)
+            if(searchText.equals(""))
+                this.mcDonaldsAdapter.setDataset(this.mcDonaldsList);
+            else
             {
-                if(MapUtils.getDistance(currentLocation, mcDonalds.getLocation()) <= range)
-                    mcDonaldsInRangeList.add(mcDonalds);
+                ArrayList<McDonalds> mcDonaldsInRangeList = new ArrayList<McDonalds>();
+                double range = Double.parseDouble(searchText) * 1000;
+
+                LatLng currentLocation = this.locationAPIManager.getLastLocation();
+                for(McDonalds mcDonalds : this.mcDonaldsList)
+                {
+                    if(MapUtils.getDistance(currentLocation, mcDonalds.getLocation()) <= range)
+                        mcDonaldsInRangeList.add(mcDonalds);
+                }
+
+                this.mcDonaldsAdapter.setDataset(mcDonaldsInRangeList);
             }
 
             //this.recyclerView.removeAllViewsInLayout();
-            this.mcDonaldsAdapter.setDataset(mcDonaldsInRangeList);
             this.mcDonaldsAdapter.notifyDataSetChanged();
         }
         catch(Exception e)
         {
-            Toast.makeText(this, getText(R.string.incorrect_input_notification), Toast.LENGTH_LONG);
+            Toast.makeText(this, getText(R.string.incorrect_input_notification), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -80,6 +91,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     public void onLocationReceived(LatLng location)
     {
         Log.d("onLocationReceived", "Location: " + location.latitude + " : " + location.longitude);
-        this.lastLocation = location;
+        this.recyclerView.removeAllViewsInLayout();
+        this.mcDonaldsAdapter.notifyDataSetChanged();
     }
 }

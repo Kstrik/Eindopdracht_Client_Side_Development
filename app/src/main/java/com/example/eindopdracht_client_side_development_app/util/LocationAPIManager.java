@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -14,6 +15,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class LocationAPIManager
 {
@@ -23,6 +26,8 @@ public class LocationAPIManager
     private FusedLocationProviderClient fushedLocationProviderClient;
 
     private LocationAPIListener locationAPIListener;
+
+    private LatLng lastLocation;
 
     private LocationAPIManager(Activity activity)
     {
@@ -70,6 +75,24 @@ public class LocationAPIManager
             }
         };
         this.fushedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+    }
+
+    public void requestLastLocation()
+    {
+        this.fushedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location)
+            {
+                LatLng newLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                lastLocation = newLocation;
+                locationAPIListener.onLocationReceived(newLocation);
+            }
+        });
+    }
+
+    public LatLng getLastLocation()
+    {
+        return this.lastLocation;
     }
 
 //    public void setCurrentActivity(Activity activity)

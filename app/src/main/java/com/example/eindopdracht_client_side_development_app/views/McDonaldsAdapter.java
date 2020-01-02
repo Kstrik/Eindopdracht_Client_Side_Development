@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eindopdracht_client_side_development_app.R;
 import com.example.eindopdracht_client_side_development_app.models.McDonalds;
+import com.example.eindopdracht_client_side_development_app.util.LocationAPIManager;
+import com.example.eindopdracht_client_side_development_app.util.MapUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -58,6 +61,15 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
                 //TODO Update database
             }
         });
+
+        LatLng lastLocation = LocationAPIManager.getInstance().getLastLocation();
+        if(lastLocation != null)
+        {
+            double distance = MapUtils.getDistance(lastLocation, mcDonalds.getLocation());
+            holder.distance.setText(Integer.toString((int)Math.floor(distance)) + " m");
+        }
+        else
+            holder.distance.setText("");
     }
 
     @Override
@@ -70,6 +82,7 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
     {
         public TextView address;
         public TextView phoneNumber;
+        public TextView distance;
         public FloatingActionButton favoriteButton;
 
         public McDonaldsViewHolder(View itemView)
@@ -77,6 +90,7 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
             super(itemView);
             this.address = (TextView)itemView.findViewById(R.id.lbl_Address);
             this.phoneNumber = (TextView)itemView.findViewById(R.id.lbl_PhoneNumber);
+            this.distance = (TextView)itemView.findViewById(R.id.lbl_Distance);
             this.favoriteButton = (FloatingActionButton)itemView.findViewById(R.id.btn_Favorite);
 
             itemView.setOnClickListener(new View.OnClickListener() {
