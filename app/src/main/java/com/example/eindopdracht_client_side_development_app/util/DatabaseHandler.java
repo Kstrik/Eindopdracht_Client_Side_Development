@@ -38,6 +38,25 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
     }
 
+    public boolean addMcDonalds(Game game)
+    {
+        if(gameExists(game))
+            return false;
+
+        ContentValues values = new ContentValues();
+        values.put("name", game.getName());
+        values.put("description", game.getDescription());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert("Games", null, values);
+
+        for(Objective objective : game.getObjectives())
+            addObjectiveToGame(objective, getGameByName(game.getName()));
+
+        return true;
+    }
+
+
 
     public static DatabaseHandler getInstance(@Nullable Context context, @Nullable String name)
     {

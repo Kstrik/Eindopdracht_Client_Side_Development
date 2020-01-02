@@ -13,7 +13,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_28_x86" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Galaxy_Nexus_API_29" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -26,9 +26,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/views/MapsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="33" column="1" lean-forward="true" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+            <state relative-caret-position="340">
+              <caret line="33" column="1" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/util/DatabaseHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
               <folding>
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
                 <element signature="e#1131#1132#0" expanded="true" />
                 <element signature="e#1173#1174#0" expanded="true" />
               </folding>
@@ -45,6 +58,14 @@
                 <element signature="imports" expanded="true" />
                 <element signature="e#1127#1128#0" expanded="true" />
                 <element signature="e#1171#1172#0" expanded="true" />
+<<<<<<< Updated upstream
+=======
+=======
+                <element signature="imports" expanded="true" />
+                <element signature="e#12016#12017#0" expanded="true" />
+                <element signature="e#12047#12048#0" expanded="true" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
               </folding>
             </state>
           </provider>
@@ -70,14 +91,24 @@
         <option value="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/google_directions_api.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/views/MapsActivity.java" />
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/util/DirectionsAPIListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/util/DirectionsAPIManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/models/McDonalds.java" />
+<<<<<<< Updated upstream
+=======
+=======
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/util/DatabaseHandler.java" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="141" />
     <option name="y" value="215" />
     <option name="width" value="1934" />
@@ -89,6 +120,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -105,50 +139,30 @@
               <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="eindopdracht_client_side_development_app" type="cbb59c9e:AndroidPsiDirectoryNode" />
             </path>
             <path>
               <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="eindopdracht_client_side_development_app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="eindopdracht_client_side_development_app" type="462c0819:PsiDirectoryNode" />
+              <item name="eindopdracht_client_side_development_app" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="eindopdracht_client_side_development_app" type="462c0819:PsiDirectoryNode" />
+              <item name="eindopdracht_client_side_development_app" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="com" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="eindopdracht_client_side_development_app" type="462c0819:PsiDirectoryNode" />
+              <item name="eindopdracht_client_side_development_app" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< Updated upstream
             <path>
               <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
@@ -164,19 +178,21 @@
               <item name="Eindopdracht_Client_Side_Development_App" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../AndroidStudioProjects/Eindopdracht_Client_Side_Development_App" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunDashboard">
@@ -284,7 +300,7 @@
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="5" weight="0.32936078" />
+      <window_info anchor="bottom" id="Build" order="5" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Android Profiler" order="6" show_stripe_button="false" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -351,9 +367,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/views/MapsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="33" column="1" lean-forward="true" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+        <state relative-caret-position="340">
+          <caret line="33" column="1" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/util/DatabaseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
           <folding>
+<<<<<<< Updated upstream
+            <element signature="e#1131#1132#0" expanded="true" />
+            <element signature="e#1173#1174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/eindopdracht_client_side_development_app/models/McDonalds.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="54" column="1" lean-forward="true" selection-start-line="54" selection-start-column="1" selection-end-line="54" selection-end-column="1" />
+          <folding>
+<<<<<<< Updated upstream
             <element signature="e#1131#1132#0" expanded="true" />
             <element signature="e#1173#1174#0" expanded="true" />
           </folding>
@@ -368,6 +404,16 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1127#1128#0" expanded="true" />
             <element signature="e#1171#1172#0" expanded="true" />
+=======
+            <element signature="imports" expanded="true" />
+            <element signature="e#1127#1128#0" expanded="true" />
+            <element signature="e#1171#1172#0" expanded="true" />
+=======
+            <element signature="imports" expanded="true" />
+            <element signature="e#12016#12017#0" expanded="true" />
+            <element signature="e#12047#12048#0" expanded="true" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
