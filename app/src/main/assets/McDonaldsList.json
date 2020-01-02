@@ -1,0 +1,16 @@
+{
+  "restaurants": [
+    {
+      "address" : "Beneluxweg 1A, 4904 SJ Oosterhout",
+      "phonenumber" : "0162 432 458",
+      "latitude" : 51.626340,
+      "longitude" : 4.869013
+    },
+    {
+      "address" : "Innovatiepark 5, 4906 AA Oosterhout",
+      "phonenumber" : "0162 495 066",
+      "latitude" : 51.673810,
+      "longitude" : 4.824350
+    }
+  ]
+}
