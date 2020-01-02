@@ -39,7 +39,7 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
 
     public void requestRoute(LatLng userLocation, McDonalds mcDonalds)
     {
-        sendRequest(Request.Method.GET, getUrlForWaypoints(userLocation, ));
+        sendRequest(Request.Method.GET, getUrlForWaypoints(userLocation, mcDonalds.getLocation()));
     }
 
     private void sendRequest(int method, String url)
