@@ -2,15 +2,54 @@ package com.example.eindopdracht_client_side_development_app.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class McDonalds
-{
-    public McDonalds()
-    {
+import java.io.Serializable;
 
+public class McDonalds implements Serializable
+{
+    private int id;
+    private String address;
+    private String phoneNumber;
+    private double latitude;
+    private double longitude;
+    private boolean isFavorite;
+
+    public McDonalds(int id, String address, String phoneNumber, LatLng location)
+    {
+        this.id = id;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.latitude = location.latitude;
+        this.longitude = location.longitude;
+        this.isFavorite = false;
+    }
+
+    public int getId()
+    {
+        return this.id;
+    }
+
+    public String getAddress()
+    {
+        return this.address;
+    }
+
+    public String getPhoneNumber()
+    {
+        return this.phoneNumber;
     }
 
     public LatLng getLocation()
     {
-        return new LatLng(0.0f, 0.0f);
+        return new LatLng(this.latitude, this.longitude);
+    }
+
+    public boolean isFavorite()
+    {
+        return this.isFavorite;
+    }
+
+    public void setFavorite(boolean isFavorite)
+    {
+        this.isFavorite = isFavorite;
     }
 }
