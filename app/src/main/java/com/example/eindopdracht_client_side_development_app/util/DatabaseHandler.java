@@ -31,6 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
                 + "adress TEXT,"
                 + "latitude DECIMAL,"
                 + "longitude DECIMAL,"
+                + "phonenumber INTEGER,"
                 + "favorite BOOLEAN);";
         sqLiteDatabase.execSQL(mcDonaldsTableCreate);
     }
@@ -54,21 +55,19 @@ public class DatabaseHandler extends SQLiteOpenHelper
             {
                 int id = mcDonaldCursor.getInt(mcDonaldCursor.getColumnIndex("id"));
                 String adress = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("adress"));
-                String latitude = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("latitude"));
-                String longitude = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("longitude"));
-                String favorite = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("favorite"));
+                double latitude = mcDonaldCursor.getDouble(mcDonaldCursor.getColumnIndex("latitude"));
+                double longitude = mcDonaldCursor.getDouble(mcDonaldCursor.getColumnIndex("longitude"));
+                String phonenumber = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("phonenumber"));
 
-                McDonalds mcDonald = new McDonalds();
-                game.ID = id;
+                LatLng latLng = new LatLng(latitude,longitude);
 
-                ArrayList<Objective> objectives = getObjectivesFromGame(game);
-                game.setObjectives(objectives);
+                McDonalds mcDonald = new McDonalds(id, adress,phonenumber,latLng);
 
-                games.add(game);
-            } while (gamesCursor.moveToNext());
+                mcDonalds.add(mcDonald);
+            } while (mcDonaldCursor.moveToNext());
         }
 
-        return games;
+        return mcDonalds;
     }
 
 
@@ -79,6 +78,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         values.put("adress", mcDonalds.getAddress());
         values.put("latitude", mcDonalds.getLocation().latitude);
         values.put("longitude", mcDonalds.getLocation().longitude);
+        values.put("phonenumber", mcDonalds.getPhoneNumber());
         values.put("favorite", mcDonalds.isFavorite());
 
         SQLiteDatabase db = this.getWritableDatabase();
