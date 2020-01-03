@@ -70,7 +70,11 @@ public class LocationAPIManager
                 {
                     for (Location location : locationResult.getLocations())
                         if (location != null)
-                            locationAPIListener.onLocationReceived(new LatLng(location.getLatitude(), location.getLongitude()));
+                        {
+                            LatLng newLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                            lastLocation = newLocation;
+                            locationAPIListener.onLocationReceived(newLocation);
+                        }
                 }
             }
         };

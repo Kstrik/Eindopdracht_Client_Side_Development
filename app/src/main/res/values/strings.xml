@@ -3,6 +3,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="search_mcdonalds_in_range_hint">Search in range(km)...</string>
     <string name="incorrect_input_notification">Incorrect input!</string>
-
+    <string name="in_range_notification">You are near your destination!</string>
     <string name="phonenumber">Phonenumber:</string>
 </resources>

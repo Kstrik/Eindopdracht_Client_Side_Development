@@ -3,9 +3,13 @@ package com.example.eindopdracht_client_side_development_app.views;
 import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.example.eindopdracht_client_side_development_app.R;
 import com.example.eindopdracht_client_side_development_app.models.McDonalds;
@@ -44,6 +48,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Circle circle;
     private Polyline walkedRoute;
 
+    private final int NOTIFY_RANGE = 100;
+    private final int NOTIFY_VIBRATION_TIME_MILLISECONDS = 500;
+    private boolean isInRange;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -55,6 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.marker = null;
         this.circle = null;
         this.walkedRoute = null;
+
+        this.isInRange = false;
 
         this.locationAPIManager = LocationAPIManager.getInstance();
         this.locationAPIManager.setLocationAPIListener(this);
@@ -94,6 +104,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 polylineOptions.color(Color.argb(1.0f, 1.0f, 0.0f, 0.0f)).width(20);
                 this.walkedRoute = this.googleMap.addPolyline(polylineOptions);
             }
+
+            if(!this.isInRange && MapUtils.getDistance(location, this.mcDonalds.getLocation()) <= this.NOTIFY_RANGE)
+            {
+                this.isInRange = true;
+                Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    v.vibrate(VibrationEffect.createOneShot(this.NOTIFY_VIBRATION_TIME_MILLISECONDS, VibrationEffect.DEFAULT_AMPLITUDE));
+                else
+                    v.vibrate(this.NOTIFY_VIBRATION_TIME_MILLISECONDS);
+
+                Toast.makeText(this, getText(R.string.in_range_notification), Toast.LENGTH_LONG).show();
+            }
+            else if(this.isInRange && MapUtils.getDistance(location, this.mcDonalds.getLocation()) > this.NOTIFY_RANGE)
+                this.isInRange = false;
         }
     }
 
@@ -109,10 +134,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             this.marker = this.googleMap.addMarker(markerOptions);
 
-            CircleOptions circleOptions = new CircleOptions().center(this.mcDonalds.getLocation()).fillColor(Color.argb(0.5f, 0.0f, 0.0f, 0.4f));
+            CircleOptions circleOptions = new CircleOptions().center(this.mcDonalds.getLocation()).fillColor(Color.argb(0.2f, 1.0f, 0.0f, 0.0f)).radius(100).strokeColor(Color.argb(0.25f, 1.0f, 0.0f, 0.0f));
             this.circle = this.googleMap.addCircle(circleOptions);
 
-            this.googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(southWestBoundry, northEastBoundry), 100));
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(southWestBoundry, northEastBoundry), this.NOTIFY_RANGE));
         }
     }
 

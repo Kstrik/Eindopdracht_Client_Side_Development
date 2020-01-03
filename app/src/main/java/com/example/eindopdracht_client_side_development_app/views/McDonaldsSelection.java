@@ -75,7 +75,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
                         mcDonaldsInRangeList.add(mcDonalds);
                 }
 
-                this.mcDonaldsAdapter.setDataset(mcDonaldsInRangeList);
+                this.mcDonaldsAdapter.setDataset(sortMcDonaldsByDistance(mcDonaldsInRangeList));
             }
 
             //this.recyclerView.removeAllViewsInLayout();
@@ -91,7 +91,36 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     public void onLocationReceived(LatLng location)
     {
         Log.d("onLocationReceived", "Location: " + location.latitude + " : " + location.longitude);
+        ArrayList<McDonalds> mcDonaldsList = new ArrayList<McDonalds>();
+        mcDonaldsList.addAll(this.mcDonaldsList);
+        this.mcDonaldsAdapter.setDataset(sortMcDonaldsByDistance(mcDonaldsList));
         this.recyclerView.removeAllViewsInLayout();
         this.mcDonaldsAdapter.notifyDataSetChanged();
+    }
+
+    private ArrayList<McDonalds> sortMcDonaldsByDistance(ArrayList<McDonalds> mcDonaldsList)
+    {
+        ArrayList<McDonalds> mcDonaldsListSorted = new ArrayList<McDonalds>();
+
+        LatLng lastLocation = this.locationAPIManager.getLastLocation();
+        while(mcDonaldsList.size() != 0)
+        {
+            McDonalds closest = mcDonaldsList.get(0);
+            double closestDistacne = MapUtils.getDistance(lastLocation, closest.getLocation());
+
+            for(McDonalds mcDonalds : mcDonaldsList)
+            {
+                double distance = MapUtils.getDistance(lastLocation, mcDonalds.getLocation());
+                if(distance < closestDistacne)
+                {
+                    closest = mcDonalds;
+                    closestDistacne = distance;
+                }
+            }
+            mcDonaldsListSorted.add(closest);
+            mcDonaldsList.remove(closest);
+        }
+
+        return mcDonaldsListSorted;
     }
 }
