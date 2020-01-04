@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Eindopdracht_Client_Side_Development_App</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="search_mcdonalds_in_range_hint">Zoek in bereik(km)...</string>
+    <string name="incorrect_input_notification">Incorrecte invoer!</string>
+    <string name="in_range_notification">Je bent dicht bij je bestemming!</string>
+    <string name="address">Adres:</string>
+    <string name="phonenumber">Telefoonnummer:</string>
+    <string name="cooridintes">Coördinaten:</string>
+    <string name="recentHeader">Recent:</string>
+    <string name="mcDonaldsHeader">Restauranten:</string>
+</resources>
