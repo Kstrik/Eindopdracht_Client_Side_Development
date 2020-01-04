@@ -130,7 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(locations).color(Color.argb(0.5f, 0.0f, 0.0f, 0.0f));
             this.fullRoute = this.googleMap.addPolyline(polylineOptions);
 
-            MarkerOptions markerOptions = new MarkerOptions().position(this.mcDonalds.getLocation()).title(this.mcDonalds.getAddress())
+            MarkerOptions markerOptions = new MarkerOptions().position(this.mcDonalds.getLocation())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             this.marker = this.googleMap.addMarker(markerOptions);
 
