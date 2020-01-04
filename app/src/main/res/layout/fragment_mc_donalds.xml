@@ -2,13 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".views.McDonaldsFragment">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    tools:context=".views.McDonaldsFragment"
+    android:background="@drawable/rounded_corner">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -16,16 +18,67 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_begin="130dp" />
+            app:layout_constraintGuide_begin="116dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/lbl_AdressHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="TextView"
+            android:text="@string/address"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lbl_PhoneNumberHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/phonenumber"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/lbl_AdressHeader"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_AdressHeader" />
+
+        <TextView
+            android:id="@+id/lbl_LocationHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/cooridintes"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/lbl_PhoneNumberHeader"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_PhoneNumberHeader" />
+
+        <TextView
+            android:id="@+id/lbl_Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="[Address]"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/lbl_AdressHeader" />
+
+        <TextView
+            android:id="@+id/lbl_PhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="[PhoneNumber]"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/lbl_PhoneNumberHeader" />
+
+        <TextView
+            android:id="@+id/lbl_Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="[Coördinates]"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/lbl_LocationHeader" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

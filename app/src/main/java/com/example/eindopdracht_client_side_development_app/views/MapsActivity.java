@@ -1,14 +1,20 @@
 package com.example.eindopdracht_client_side_development_app.views;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.eindopdracht_client_side_development_app.R;
@@ -26,6 +32,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -35,7 +42,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationAPIListener, DirectionsAPIListener
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationAPIListener, DirectionsAPIListener, McDonaldsFragment.OnFragmentInteractionListener
 {
     private GoogleMap googleMap;
     private LocationAPIManager locationAPIManager;
@@ -51,6 +58,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final int NOTIFY_RANGE = 100;
     private final int NOTIFY_VIBRATION_TIME_MILLISECONDS = 500;
     private boolean isInRange;
+
+    private McDonaldsFragment mcDonaldsFragment;
+    private FragmentManager fragmentManager;
+    private ConstraintLayout mcDonaldsLayout;
+
+    private boolean markerIsClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,6 +87,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        this.fragmentManager = getSupportFragmentManager();
+        this.mcDonaldsFragment = (McDonaldsFragment)this.fragmentManager.findFragmentById(R.id.frg_McDonalds);
+        this.mcDonaldsFragment.setMcDonalds(this.mcDonalds);
+
+        this.mcDonaldsLayout = findViewById(R.id.cns_McDonaldsFragmentLayout);
+        this.mcDonaldsLayout.setVisibility(View.GONE);
+
+        this.markerIsClicked = false;
     }
 
     @Override
@@ -81,6 +103,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         this.googleMap = googleMap;
         this.googleMap.setMyLocationEnabled(true);
+
+        this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker)
+            {
+                markerIsClicked = true;
+                mcDonaldsLayout.setVisibility(View.VISIBLE);
+                //fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).show(mcDonaldsFragment).commit();
+                //fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).hide(mcDonaldsFragment).commit();
+                return false;
+            }
+        });
+
+        this.googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng)
+            {
+                mcDonaldsLayout.setVisibility(View.GONE);
+            }
+        });
+
+        this.googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle()
+            {
+                if(markerIsClicked)
+                    markerIsClicked = false;
+            }
+        });
+
+        this.googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove()
+            {
+                if(!markerIsClicked)
+                    mcDonaldsLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -153,5 +213,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
         }
         return locationsBefore;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri)
+    {
+
     }
 }

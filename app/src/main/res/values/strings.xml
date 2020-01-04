@@ -4,11 +4,9 @@
     <string name="search_mcdonalds_in_range_hint">Search in range(km)...</string>
     <string name="incorrect_input_notification">Incorrect input!</string>
     <string name="in_range_notification">You are near your destination!</string>
+    <string name="address">Address:</string>
     <string name="phonenumber">Phonenumber:</string>
+    <string name="cooridintes">Coördinates:</string>
     <string name="recentHeader">Recent:</string>
     <string name="mcDonaldsHeader">Restaurants:</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
