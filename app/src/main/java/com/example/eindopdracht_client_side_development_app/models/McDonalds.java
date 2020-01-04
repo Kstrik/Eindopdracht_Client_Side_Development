@@ -13,14 +13,29 @@ public class McDonalds implements Serializable
     private double longitude;
     private boolean isFavorite;
 
-    public McDonalds(int id, String address, String phoneNumber, LatLng location)
+    public McDonalds(int id, String address, String phoneNumber, LatLng location, boolean isFavorite)
     {
         this.id = id;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.latitude = location.latitude;
         this.longitude = location.longitude;
-        this.isFavorite = false;
+        this.isFavorite = isFavorite;
+    }
+
+    public McDonalds(String address, String phoneNumber, LatLng location, boolean isFavorite)
+    {
+        this(-1, address, phoneNumber, location, isFavorite);
+    }
+
+    public McDonalds(String address, String phoneNumber, LatLng location)
+    {
+        this(-1, address, phoneNumber, location, false);
+    }
+
+    public McDonalds clone()
+    {
+        return new McDonalds(this.id, this.address, this.phoneNumber, new LatLng(this.latitude, this.longitude), this.isFavorite);
     }
 
     public int getId()

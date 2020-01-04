@@ -1,11 +1,13 @@
 package com.example.eindopdracht_client_side_development_app.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.eindopdracht_client_side_development_app.R;
 import com.example.eindopdracht_client_side_development_app.models.McDonalds;
+import com.example.eindopdracht_client_side_development_app.util.DatabaseHandler;
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIListener;
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIManager;
 import com.example.eindopdracht_client_side_development_app.util.MapUtils;
@@ -22,9 +25,14 @@ import java.util.ArrayList;
 
 public class McDonaldsSelection extends AppCompatActivity implements LocationAPIListener
 {
+    private RecyclerView recentView;
+    private ConstraintLayout recentLayout;
+    private McDonaldsAdapter recentAdapter;
+
     private RecyclerView recyclerView;
     private McDonaldsAdapter mcDonaldsAdapter;
 
+    private DatabaseHandler databaseHandler;
     private ArrayList<McDonalds> mcDonaldsList;
 
     private EditText searchMcDonaldsEditText;
@@ -36,23 +44,59 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mc_donalds_selection);
 
+        this.recentView = findViewById(R.id.rcv_RecentView);
+        this.recentLayout = findViewById(R.id.cns_RecentLayout);
+
         this.recyclerView = findViewById(R.id.rcv_McDonaldsView);
         this.searchMcDonaldsEditText = findViewById(R.id.txb_SearchMcDonalds);
         //this.databaseHandler = DatabaseHandler.getInstance(getApplicationContext(), "GameDB");
         //this.mcDonaldsList = this.databaseHandler.getAllGames();
 
-        this.mcDonaldsList = new ArrayList<McDonalds>();
-        this.mcDonaldsList.add(new McDonalds(0, "Beneluxweg 1A, 4904 SJ Oosterhout", "0162 432 458", new LatLng(51.626340, 4.869013)));
-        this.mcDonaldsList.add(new McDonalds(1, "Innovatiepark 5, 4906 AA Oosterhout", "0162 495 066", new LatLng(51.673810, 4.824350)));
+        //getApplicationContext().deleteDatabase("McDonaldsDB");
+        this.databaseHandler = DatabaseHandler.getInstance(getApplicationContext(), "McDonaldsDB");
+        //this.databaseHandler.addMcDonalds(new McDonalds("Beneluxweg 1A, 4904 SJ Oosterhout", "0162 432 458", new LatLng(51.626340, 4.869013)));
+        //this.databaseHandler.addMcDonalds(new McDonalds("Innovatiepark 5, 4906 AA Oosterhout", "0162 495 066", new LatLng(51.673810, 4.824350)));
 
+        this.mcDonaldsList = this.databaseHandler.getAllMcDonalds();
+        //this.mcDonaldsList = new ArrayList<McDonalds>();
+        //this.mcDonaldsList.add(new McDonalds(0, "Beneluxweg 1A, 4904 SJ Oosterhout", "0162 432 458", new LatLng(51.626340, 4.869013)));
+        //this.mcDonaldsList.add(new McDonalds(1, "Innovatiepark 5, 4906 AA Oosterhout", "0162 495 066", new LatLng(51.673810, 4.824350)));
+
+        this.recentView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
-        this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList, getApplicationContext());
+        this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList, this);
 
         this.recyclerView.setAdapter(this.mcDonaldsAdapter);
+
+        this.recentLayout.setVisibility(View.GONE);
+        McDonalds recent = getRecentIfExists(this.mcDonaldsList);
+        if(recent != null)
+        {
+            this.recentLayout.setVisibility(View.VISIBLE);
+            ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
+            recentList.add(recent);
+            this.recentAdapter = new McDonaldsAdapter(recentList, this);
+            this.recentView.setAdapter(this.recentAdapter);
+        }
 
         this.locationAPIManager = LocationAPIManager.getInstance(this);
         this.locationAPIManager.setLocationAPIListener(this);
         this.locationAPIManager.requestLastLocation();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if(this.recentAdapter != null)
+        {
+            McDonalds recent = getRecentIfExists(this.mcDonaldsList);
+            ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
+            recentList.add(recent);
+            this.recentAdapter.setDataset(recentList);
+            this.recentAdapter.notifyDataSetChanged();
+        }
     }
 
     public void onSearchInRangeClick(View view)
@@ -122,5 +166,22 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         }
 
         return mcDonaldsListSorted;
+    }
+
+    private McDonalds getRecentIfExists(ArrayList<McDonalds> mcDonaldsList)
+    {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String recentMcDonaldsAddress = sharedPreferences.getString("recent", "");
+
+        McDonalds recent = null;
+        if(!recentMcDonaldsAddress.equals(""))
+        {
+            for(McDonalds mcDonalds : mcDonaldsList)
+            {
+                if(mcDonalds.getAddress().equals(recentMcDonaldsAddress))
+                    recent = mcDonalds.clone();
+            }
+        }
+        return recent;
     }
 }

@@ -2,7 +2,9 @@ package com.example.eindopdracht_client_side_development_app.views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eindopdracht_client_side_development_app.R;
 import com.example.eindopdracht_client_side_development_app.models.McDonalds;
+import com.example.eindopdracht_client_side_development_app.util.DatabaseHandler;
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIManager;
 import com.example.eindopdracht_client_side_development_app.util.MapUtils;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,7 +64,7 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
                 mcDonalds.setFavorite(!mcDonalds.isFavorite());
                 favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
 
-                //TODO Update database
+                DatabaseHandler.getInstance().updateMcDonalds(mcDonalds);
             }
         });
 
@@ -100,6 +103,11 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
                 @Override
                 public void onClick(View view) {
                     McDonalds mcDonalds = dataset.get(McDonaldsViewHolder.super.getAdapterPosition());
+
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("recent", mcDonalds.getAddress());
+                    editor.commit();
 
                     Intent intent = new Intent(view.getContext(), MapsActivity.class).putExtra("mcdonalds", mcDonalds);
                     view.getContext().startActivity(intent);

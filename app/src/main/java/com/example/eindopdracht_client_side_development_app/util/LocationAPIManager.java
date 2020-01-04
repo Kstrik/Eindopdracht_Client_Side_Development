@@ -83,6 +83,8 @@ public class LocationAPIManager
 
     public void requestLastLocation()
     {
+//        if(this.fushedLocationProviderClient == null)
+//            this.fushedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity.getApplicationContext());
         this.fushedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location)

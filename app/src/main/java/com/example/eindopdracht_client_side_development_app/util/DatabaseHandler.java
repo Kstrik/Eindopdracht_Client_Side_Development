@@ -26,9 +26,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
-        String mcDonaldsTableCreate = "CREATE TABLE McDonald"
+        String mcDonaldsTableCreate = "CREATE TABLE McDonalds"
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "adress TEXT,"
+                + "address TEXT,"
                 + "latitude DECIMAL,"
                 + "longitude DECIMAL,"
                 + "phonenumber INTEGER,"
@@ -47,21 +47,22 @@ public class DatabaseHandler extends SQLiteOpenHelper
         ArrayList<McDonalds> mcDonalds = new  ArrayList<McDonalds>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor mcDonaldCursor = db.rawQuery("SELECT * FROM McDonald;", null);
+        Cursor mcDonaldCursor = db.rawQuery("SELECT * FROM McDonalds;", null);
 
         if (mcDonaldCursor.moveToFirst())
         {
             do
             {
                 int id = mcDonaldCursor.getInt(mcDonaldCursor.getColumnIndex("id"));
-                String adress = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("adress"));
+                String adress = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("address"));
                 double latitude = mcDonaldCursor.getDouble(mcDonaldCursor.getColumnIndex("latitude"));
                 double longitude = mcDonaldCursor.getDouble(mcDonaldCursor.getColumnIndex("longitude"));
                 String phonenumber = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("phonenumber"));
+                boolean isFavorite = (mcDonaldCursor.getInt(mcDonaldCursor.getColumnIndex("favorite")) == 0) ? false : true;
 
                 LatLng latLng = new LatLng(latitude,longitude);
 
-                McDonalds mcDonald = new McDonalds(id, adress,phonenumber,latLng);
+                McDonalds mcDonald = new McDonalds(id, adress, phonenumber, latLng, isFavorite);
 
                 mcDonalds.add(mcDonald);
             } while (mcDonaldCursor.moveToNext());
@@ -70,22 +71,48 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return mcDonalds;
     }
 
-
     public boolean addMcDonalds(McDonalds mcDonalds)
     {
+        if(mcDonalds == null || mcDonaldsExists(mcDonalds))
+            return false;
 
         ContentValues values = new ContentValues();
-        values.put("adress", mcDonalds.getAddress());
+        values.put("address", mcDonalds.getAddress());
         values.put("latitude", mcDonalds.getLocation().latitude);
         values.put("longitude", mcDonalds.getLocation().longitude);
         values.put("phonenumber", mcDonalds.getPhoneNumber());
         values.put("favorite", mcDonalds.isFavorite());
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert("McDonald", null, values);
-
+        db.insert("McDonalds", null, values);
 
         return true;
+    }
+
+    public boolean updateMcDonalds(McDonalds mcDonalds)
+    {
+        if(mcDonalds == null || mcDonalds.getId() == -1 || !mcDonaldsExists(mcDonalds))
+            return false;
+
+        ContentValues values = new ContentValues();
+        values.put("phonenumber", mcDonalds.getPhoneNumber());
+        values.put("favorite", mcDonalds.isFavorite());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update("McDonalds", values, "id = ?", new String[] { String.valueOf(mcDonalds.getId()) });
+
+        return true;
+    }
+
+    public boolean mcDonaldsExists(McDonalds mcDonalds)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, "McDonalds", "address = ?", new String[] { mcDonalds.getAddress() });
+        //long count = DatabaseUtils.queryNumEntries(db, "McDonalds", "id = ?", new String[] { String.valueOf(mcDonalds.getId()) });
+
+        if (count != 0)
+            return true;
+        return false;
     }
 
     public static DatabaseHandler getInstance(@Nullable Context context, @Nullable String name)
