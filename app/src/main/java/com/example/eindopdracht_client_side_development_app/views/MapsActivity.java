@@ -3,7 +3,6 @@ package com.example.eindopdracht_client_side_development_app.views;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 
 import android.graphics.Color;
@@ -24,7 +23,7 @@ import com.example.eindopdracht_client_side_development_app.util.DirectionsAPIMa
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIListener;
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIManager;
 import com.example.eindopdracht_client_side_development_app.util.MapUtils;
-import com.google.android.gms.maps.CameraUpdate;
+import com.example.eindopdracht_client_side_development_app.util.animations.ShakeAnimationSequence;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,7 +31,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -64,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ConstraintLayout mcDonaldsLayout;
 
     private boolean markerIsClicked;
+    private ShakeAnimationSequence shakeAnimationSequence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -96,6 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.mcDonaldsLayout.setVisibility(View.GONE);
 
         this.markerIsClicked = false;
+        this.shakeAnimationSequence = new ShakeAnimationSequence(this.mcDonaldsLayout, -2, 2, 600, 4);
     }
 
     @Override
@@ -110,6 +110,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 markerIsClicked = true;
                 mcDonaldsLayout.setVisibility(View.VISIBLE);
+
+                shakeAnimationSequence.start();
+
                 //fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).show(mcDonaldsFragment).commit();
                 //fragmentManager.beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out).hide(mcDonaldsFragment).commit();
                 return false;

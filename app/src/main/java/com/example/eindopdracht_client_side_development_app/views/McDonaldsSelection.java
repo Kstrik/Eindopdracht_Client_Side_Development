@@ -19,6 +19,7 @@ import com.example.eindopdracht_client_side_development_app.util.DatabaseHandler
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIListener;
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIManager;
 import com.example.eindopdracht_client_side_development_app.util.MapUtils;
+import com.example.eindopdracht_client_side_development_app.util.animations.ScaleBounceAnimationSequence;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
     private EditText searchMcDonaldsEditText;
     private LocationAPIManager locationAPIManager;
+
+    private ScaleBounceAnimationSequence scaleBounceAnimationSequence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,6 +85,8 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         this.locationAPIManager = LocationAPIManager.getInstance(this);
         this.locationAPIManager.setLocationAPIListener(this);
         this.locationAPIManager.requestLastLocation();
+
+        this.scaleBounceAnimationSequence = new ScaleBounceAnimationSequence(findViewById(R.id.btn_SearchInRadius), 0.8f, 1.2f, 500, 1);
     }
 
     @Override
@@ -103,6 +108,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     {
         try
         {
+            this.scaleBounceAnimationSequence.start();
             String searchText = this.searchMcDonaldsEditText.getText().toString();
 
             if(searchText.equals(""))

@@ -18,6 +18,7 @@ import com.example.eindopdracht_client_side_development_app.models.McDonalds;
 import com.example.eindopdracht_client_side_development_app.util.DatabaseHandler;
 import com.example.eindopdracht_client_side_development_app.util.LocationAPIManager;
 import com.example.eindopdracht_client_side_development_app.util.MapUtils;
+import com.example.eindopdracht_client_side_development_app.util.animations.ScaleBounceAnimationSequence;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,10 +58,13 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
         final FloatingActionButton favoriteButton = holder.favoriteButton;
         favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
 
+        final ScaleBounceAnimationSequence scaleBounceAnimationSequence = new ScaleBounceAnimationSequence(holder.favoriteButton, 0.8f, 1.2f, 500, 1);
+
         holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
+                scaleBounceAnimationSequence.start();
                 mcDonalds.setFavorite(!mcDonalds.isFavorite());
                 favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
 
