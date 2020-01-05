@@ -11,6 +11,78 @@
       "phonenumber" : "0162 495 066",
       "latitude" : 51.673810,
       "longitude" : 4.824350
+    },
+    {
+      "address" : "Veldsteen 4, 4815 PK Breda",
+      "phonenumber" : "076 541 8580",
+      "latitude" : 51.600255,
+      "longitude" : 4.738523
+    },
+    {
+      "address" : "Karnemelkstraat 5, 4811 KJ Breda",
+      "phonenumber" : "076 533 3000",
+      "latitude" : 51.585908,
+      "longitude" : 4.775850
+    },
+    {
+      "address" : "Bavelseparklaan 6, 4817 ZX Breda",
+      "phonenumber" : "076 303 3520",
+      "latitude" : 51.579795,
+      "longitude" : 4.836778
+    },
+    {
+      "address" : "Trivium 180, 4873 LP Etten-Leur",
+      "phonenumber" : "076 501 3395",
+      "latitude" : 51.572498,
+      "longitude" : 4.668115
+    },
+    {
+      "address" : "Emmerblok 2, 4751 XE Oud Gastel",
+      "phonenumber" : "0165 537 504",
+      "latitude" : 51.566557,
+      "longitude" : 4.470814
+    },
+    {
+      "address" : "Takspui 2, 4706 CM Roosendaal",
+      "phonenumber" : "0165 555 866",
+      "latitude" : 51.535092,
+      "longitude" : 4.484535
+    },
+    {
+      "address" : "Hazeldonk 5006, 4836 LZ Breda",
+      "phonenumber" : "076 596 1528",
+      "latitude" : 51.498443,
+      "longitude" : 4.740743
+    },
+    {
+      "address" : "Van Andelstraat 15, 5141 PB Waalwijk",
+      "phonenumber" : "0416 650 839",
+      "latitude" : 51.689068,
+      "longitude" : 5.042925
+    },
+    {
+      "address" : "Aphroditestraat 18, 5047 TW Tilburg",
+      "phonenumber" : "0013 503 0956",
+      "latitude" : 51.582960,
+      "longitude" : 5.028607
+    },
+    {
+      "address" : "Mina Krusemanweg 4, 5032 ME Tilburg",
+      "phonenumber" : "013 590 1983",
+      "latitude" : 51.537309,
+      "longitude" : 5.042124
+    },
+    {
+      "address" : "Piusplein 75, 5038 WP Tilburg",
+      "phonenumber" : "013 580 2634",
+      "latitude" : 51.555823,
+      "longitude" : 5.090658
+    },
+    {
+      "address" : "Rijksweg 1, 5071 NH Udenhout",
+      "phonenumber" : "013 521 3397",
+      "latitude" : 51.593033,
+      "longitude" : 5.170310
     }
   ]
 }
