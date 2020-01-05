@@ -94,14 +94,17 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     {
         super.onResume();
 
+        this.mcDonaldsAdapter.notifyDataSetChanged();
+
         if(this.recentAdapter != null)
         {
             McDonalds recent = getRecentIfExists(this.mcDonaldsList);
             ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
             recentList.add(recent);
             this.recentAdapter.setDataset(recentList);
-            this.recentAdapter.notifyDataSetChanged();
         }
+
+        this.recentAdapter.notifyDataSetChanged();
     }
 
     public void onSearchInRangeClick(View view)
