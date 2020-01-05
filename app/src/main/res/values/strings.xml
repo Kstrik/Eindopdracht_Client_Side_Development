@@ -7,6 +7,6 @@
     <string name="address">Address:</string>
     <string name="phonenumber">Phonenumber:</string>
     <string name="cooridintes">Coördinates:</string>
-    <string name="recentHeader">Recent:</string>
-    <string name="mcDonaldsHeader">Restaurants:</string>
+    <string name="recentHeader">Recent McDonalds:</string>
+    <string name="mcDonaldsHeader">McDonalds restaurants:</string>
 </resources>

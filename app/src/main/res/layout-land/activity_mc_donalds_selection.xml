@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DDDDDD"
+    tools:context=".views.McDonaldsSelection">
+
+    <EditText
+        android:id="@+id/txb_SearchMcDonalds"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rounded_corner"
+        android:ems="10"
+        android:hint="@string/search_mcdonalds_in_range_hint"
+        android:inputType="textPersonName"
+        android:padding="20px"
+        app:layout_constraintEnd_toStartOf="@+id/btn_SearchInRadius"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_Restaurants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/mcDonaldsHeader"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/rcv_McDonaldsView"
+        app:layout_constraintTop_toBottomOf="@+id/txb_SearchMcDonalds" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_McDonaldsView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_corner"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Restaurants"
+        tools:listitem="@layout/mcdonalds_list_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_SearchInRadius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:onClick="onSearchInRangeClick"
+        app:backgroundTint="#E2180F"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/txb_SearchMcDonalds"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ShowFavorites"
+        app:layout_constraintTop_toTopOf="@+id/txb_SearchMcDonalds"
+        app:srcCompat="@drawable/ic_search_white_24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_ShowFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:onClick="onShowFavoritesClick"
+        app:backgroundTint="#E2180F"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/txb_SearchMcDonalds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txb_SearchMcDonalds"
+        app:srcCompat="@drawable/ic_format_list_bulleted_white_24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

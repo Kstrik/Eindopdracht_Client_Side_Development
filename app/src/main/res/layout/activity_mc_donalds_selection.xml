@@ -9,15 +9,17 @@
 
     <EditText
         android:id="@+id/txb_SearchMcDonalds"
-        android:layout_width="342dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/rounded_corner"
         android:ems="10"
         android:hint="@string/search_mcdonalds_in_range_hint"
         android:inputType="textPersonName"
         android:padding="20px"
+        app:layout_constraintEnd_toStartOf="@+id/btn_SearchInRadius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,24 +47,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_Restaurants" />
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Restaurants"
+        tools:listitem="@layout/mcdonalds_list_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_SearchInRadius"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
         android:clickable="true"
         android:onClick="onSearchInRangeClick"
         app:backgroundTint="#E2180F"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@+id/txb_SearchMcDonalds"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txb_SearchMcDonalds"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ShowFavorites"
         app:layout_constraintTop_toTopOf="@+id/txb_SearchMcDonalds"
         app:srcCompat="@drawable/ic_search_white_24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_ShowFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:onClick="onShowFavoritesClick"
+        app:backgroundTint="#E2180F"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/txb_SearchMcDonalds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txb_SearchMcDonalds"
+        app:srcCompat="@drawable/ic_format_list_bulleted_white_24dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cns_RecentLayout"
@@ -86,7 +102,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:itemCount="1"
-            tools:listitem="@layout/mcdonalds_list_item" />
+            tools:listitem="@layout/mcdonalds_recent_list_item" />
 
         <TextView
             android:id="@+id/lbl_Recent"

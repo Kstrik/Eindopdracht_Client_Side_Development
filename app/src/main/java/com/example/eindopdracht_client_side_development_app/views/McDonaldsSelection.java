@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -39,7 +40,8 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     private EditText searchMcDonaldsEditText;
     private LocationAPIManager locationAPIManager;
 
-    private ScaleBounceAnimationSequence scaleBounceAnimationSequence;
+    private ScaleBounceAnimationSequence scaleBounceAnimationSequenceSearchButton;
+    private ScaleBounceAnimationSequence scaleBounceAnimationSequenceSFavoritesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,46 +49,40 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mc_donalds_selection);
 
-        this.recentView = findViewById(R.id.rcv_RecentView);
-        this.recentLayout = findViewById(R.id.cns_RecentLayout);
-
         this.recyclerView = findViewById(R.id.rcv_McDonaldsView);
-        this.searchMcDonaldsEditText = findViewById(R.id.txb_SearchMcDonalds);
-        //this.databaseHandler = DatabaseHandler.getInstance(getApplicationContext(), "GameDB");
-        //this.mcDonaldsList = this.databaseHandler.getAllGames();
-
-        //getApplicationContext().deleteDatabase("McDonaldsDB");
-        this.databaseHandler = DatabaseHandler.getInstance(getApplicationContext(), "McDonaldsDB");
-        //this.databaseHandler.addMcDonalds(new McDonalds("Beneluxweg 1A, 4904 SJ Oosterhout", "0162 432 458", new LatLng(51.626340, 4.869013)));
-        //this.databaseHandler.addMcDonalds(new McDonalds("Innovatiepark 5, 4906 AA Oosterhout", "0162 495 066", new LatLng(51.673810, 4.824350)));
-
-        this.mcDonaldsList = this.databaseHandler.getAllMcDonalds();
-        //this.mcDonaldsList = new ArrayList<McDonalds>();
-        //this.mcDonaldsList.add(new McDonalds(0, "Beneluxweg 1A, 4904 SJ Oosterhout", "0162 432 458", new LatLng(51.626340, 4.869013)));
-        //this.mcDonaldsList.add(new McDonalds(1, "Innovatiepark 5, 4906 AA Oosterhout", "0162 495 066", new LatLng(51.673810, 4.824350)));
-
-        this.recentView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
+        this.searchMcDonaldsEditText = findViewById(R.id.txb_SearchMcDonalds);
+
+        this.databaseHandler = DatabaseHandler.getInstance(getApplicationContext(), "McDonaldsDB");
+        this.mcDonaldsList = this.databaseHandler.getAllMcDonalds();
         this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList, this, false);
 
         this.recyclerView.setAdapter(this.mcDonaldsAdapter);
 
-        this.recentLayout.setVisibility(View.GONE);
-        McDonalds recent = getRecentIfExists(this.mcDonaldsList);
-        if(recent != null)
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
         {
-            this.recentLayout.setVisibility(View.VISIBLE);
-            ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
-            recentList.add(recent);
-            this.recentAdapter = new McDonaldsAdapter(recentList, this, true);
-            this.recentView.setAdapter(this.recentAdapter);
+            this.recentView = findViewById(R.id.rcv_RecentView);
+            this.recentView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
+            this.recentLayout = findViewById(R.id.cns_RecentLayout);
+
+            this.recentLayout.setVisibility(View.GONE);
+            McDonalds recent = getRecentIfExists(this.mcDonaldsList);
+            if(recent != null)
+            {
+                this.recentLayout.setVisibility(View.VISIBLE);
+                ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
+                recentList.add(recent);
+                this.recentAdapter = new McDonaldsAdapter(recentList, this, true);
+                this.recentView.setAdapter(this.recentAdapter);
+            }
         }
 
         this.locationAPIManager = LocationAPIManager.getInstance(this);
         this.locationAPIManager.setLocationAPIListener(this);
         this.locationAPIManager.requestLastLocation();
 
-        this.scaleBounceAnimationSequence = new ScaleBounceAnimationSequence(findViewById(R.id.btn_SearchInRadius), 0.8f, 1.2f, 500, 1);
+        this.scaleBounceAnimationSequenceSearchButton = new ScaleBounceAnimationSequence(findViewById(R.id.btn_SearchInRadius), 0.8f, 1.2f, 500, 1);
+        this.scaleBounceAnimationSequenceSFavoritesButton = new ScaleBounceAnimationSequence(findViewById(R.id.btn_ShowFavorites), 0.8f, 1.2f, 500, 1);
     }
 
     @Override
@@ -96,7 +92,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
         this.mcDonaldsAdapter.notifyDataSetChanged();
 
-        if(this.recentAdapter != null)
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && this.recentAdapter != null)
         {
             McDonalds recent = getRecentIfExists(this.mcDonaldsList);
             ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
@@ -110,7 +106,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     {
         try
         {
-            this.scaleBounceAnimationSequence.start();
+            this.scaleBounceAnimationSequenceSearchButton.start();
             String searchText = this.searchMcDonaldsEditText.getText().toString();
 
             if(searchText.equals(""))
@@ -139,6 +135,21 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         }
     }
 
+    public void onShowFavoritesClick(View view)
+    {
+        this.scaleBounceAnimationSequenceSFavoritesButton.start();
+
+        ArrayList<McDonalds> mcDonaldsFavoritesList = new ArrayList<McDonalds>();
+        for(McDonalds mcDonalds : this.mcDonaldsList)
+        {
+            if(mcDonalds.isFavorite())
+                mcDonaldsFavoritesList.add(mcDonalds);
+        }
+
+        this.mcDonaldsAdapter.setDataset(sortMcDonaldsByDistance(mcDonaldsFavoritesList));
+        this.mcDonaldsAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onLocationReceived(LatLng location)
     {
@@ -148,6 +159,9 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         this.mcDonaldsAdapter.setDataset(sortMcDonaldsByDistance(mcDonaldsList));
         this.recyclerView.removeAllViewsInLayout();
         this.mcDonaldsAdapter.notifyDataSetChanged();
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && this.recentAdapter != null)
+            this.recentAdapter.notifyDataSetChanged();
     }
 
     private ArrayList<McDonalds> sortMcDonaldsByDistance(ArrayList<McDonalds> mcDonaldsList)
