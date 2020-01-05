@@ -28,11 +28,13 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
 {
     private ArrayList<McDonalds> dataset;
     private Context context;
+    private boolean isRecent;
 
-    public McDonaldsAdapter(ArrayList<McDonalds> dataset, Context context)
+    public McDonaldsAdapter(ArrayList<McDonalds> dataset, Context context, boolean isRecent)
     {
         this.dataset = dataset;
         this.context = context;
+        this.isRecent = isRecent;
     }
 
     private ViewGroup parent;
@@ -44,7 +46,7 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
         this.parent = parent;
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.mcdonalds_list_item, parent, false);
+        View view = inflater.inflate((!this.isRecent) ? R.layout.mcdonalds_list_item : R.layout.mcdonalds_recent_list_item, parent, false);
         return new McDonaldsViewHolder(view);
     }
 
@@ -55,22 +57,25 @@ public class McDonaldsAdapter extends RecyclerView.Adapter<McDonaldsAdapter.McDo
         holder.address.setText(mcDonalds.getAddress());
         holder.phoneNumber.setText(this.context.getString(R.string.phonenumber) + " " + mcDonalds.getPhoneNumber());
 
-        final FloatingActionButton favoriteButton = holder.favoriteButton;
-        favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
+        if(!this.isRecent)
+        {
+            final FloatingActionButton favoriteButton = holder.favoriteButton;
+            favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
 
-        final ScaleBounceAnimationSequence scaleBounceAnimationSequence = new ScaleBounceAnimationSequence(holder.favoriteButton, 0.8f, 1.2f, 500, 1);
+            final ScaleBounceAnimationSequence scaleBounceAnimationSequence = new ScaleBounceAnimationSequence(holder.favoriteButton, 0.8f, 1.2f, 500, 1);
 
-        holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                scaleBounceAnimationSequence.start();
-                mcDonalds.setFavorite(!mcDonalds.isFavorite());
-                favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
+            holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    scaleBounceAnimationSequence.start();
+                    mcDonalds.setFavorite(!mcDonalds.isFavorite());
+                    favoriteButton.setImageResource((mcDonalds.isFavorite()) ?  R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
 
-                DatabaseHandler.getInstance().updateMcDonalds(mcDonalds);
-            }
-        });
+                    DatabaseHandler.getInstance().updateMcDonalds(mcDonalds);
+                }
+            });
+        }
 
         LatLng lastLocation = LocationAPIManager.getInstance().getLastLocation();
         if(lastLocation != null)

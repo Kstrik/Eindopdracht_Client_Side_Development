@@ -67,7 +67,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
         this.recentView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
-        this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList, this);
+        this.mcDonaldsAdapter = new McDonaldsAdapter(this.mcDonaldsList, this, false);
 
         this.recyclerView.setAdapter(this.mcDonaldsAdapter);
 
@@ -78,7 +78,7 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
             this.recentLayout.setVisibility(View.VISIBLE);
             ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
             recentList.add(recent);
-            this.recentAdapter = new McDonaldsAdapter(recentList, this);
+            this.recentAdapter = new McDonaldsAdapter(recentList, this, true);
             this.recentView.setAdapter(this.recentAdapter);
         }
 
@@ -102,9 +102,8 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
             ArrayList<McDonalds> recentList = new ArrayList<McDonalds>();
             recentList.add(recent);
             this.recentAdapter.setDataset(recentList);
+            this.recentAdapter.notifyDataSetChanged();
         }
-
-        this.recentAdapter.notifyDataSetChanged();
     }
 
     public void onSearchInRangeClick(View view)

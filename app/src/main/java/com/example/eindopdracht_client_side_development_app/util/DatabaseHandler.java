@@ -67,7 +67,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
             do
             {
                 int id = mcDonaldCursor.getInt(mcDonaldCursor.getColumnIndex("id"));
-                String adress = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("address"));
+                String address = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("address"));
                 double latitude = mcDonaldCursor.getDouble(mcDonaldCursor.getColumnIndex("latitude"));
                 double longitude = mcDonaldCursor.getDouble(mcDonaldCursor.getColumnIndex("longitude"));
                 String phonenumber = mcDonaldCursor.getString(mcDonaldCursor.getColumnIndex("phonenumber"));
@@ -75,7 +75,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
                 LatLng latLng = new LatLng(latitude,longitude);
 
-                McDonalds mcDonald = new McDonalds(id, adress, phonenumber, latLng, isFavorite);
+                McDonalds mcDonald = new McDonalds(id, address, phonenumber, latLng, isFavorite);
 
                 mcDonalds.add(mcDonald);
             } while (mcDonaldCursor.moveToNext());
@@ -101,8 +101,10 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         return true;
     }
-    public void readJsonFile(){
-        try {
+    public void readJsonFile()
+    {
+        try
+        {
             JSONObject jsonObject = new JSONObject(loadJSONFromAsset("McDonaldsList.json"));
             JSONArray jsonArray = jsonObject.getJSONArray("restaurants");
             for (int i = 0; i < jsonArray.length(); i++){
@@ -119,7 +121,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
                 addMcDonalds(mcDonalds);
             }
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
