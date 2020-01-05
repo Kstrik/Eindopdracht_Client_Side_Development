@@ -12,15 +12,28 @@ import androidx.annotation.Nullable;
 import com.example.eindopdracht_client_side_development_app.models.McDonalds;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
 
 public class DatabaseHandler extends SQLiteOpenHelper
 {
     private static DatabaseHandler instance;
+    private Context context;
 
     public DatabaseHandler(@Nullable Context context, @Nullable String name)
     {
         super(context, name, null, 1);
+        this.context = context;
+        readJsonFile();
     }
 
     @Override
@@ -87,6 +100,50 @@ public class DatabaseHandler extends SQLiteOpenHelper
         db.insert("McDonalds", null, values);
 
         return true;
+    }
+    public void readJsonFile(){
+        try {
+            JSONObject jsonObject = new JSONObject(loadJSONFromAsset("McDonaldsList.json"));
+            JSONArray jsonArray = jsonObject.getJSONArray("restaurants");
+            for (int i = 0; i < jsonArray.length(); i++){
+                JSONObject mcDonaldsObject = jsonArray.getJSONObject(i);
+
+                String address = mcDonaldsObject.getString("address");
+                double latitude = mcDonaldsObject.getDouble("latitude");
+                double longitude = mcDonaldsObject.getDouble("longitude");
+                String phonenumber = mcDonaldsObject.getString("phonenumber");
+
+                LatLng latLng = new LatLng(latitude,longitude);
+
+                McDonalds mcDonalds = new McDonalds(address,phonenumber,latLng);
+
+                addMcDonalds(mcDonalds);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public String loadJSONFromAsset(String file)
+    {
+        String json = null;
+        try
+        {
+            InputStream is = context.getAssets().open(file);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
+        return json;
     }
 
     public boolean updateMcDonalds(McDonalds mcDonalds)
