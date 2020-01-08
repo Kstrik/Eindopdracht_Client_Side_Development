@@ -1,6 +1,7 @@
 package com.example.eindopdracht_client_side_development_app.util;
 
 import android.content.Context;
+import android.location.Location;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,16 +30,20 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
 
     private DirectionsAPIListener directionsAPIListener;
 
+    private boolean firstRequest;
+
     public DirectionsAPIManager(Context context, DirectionsAPIListener directionsAPIListener)
     {
         this.context = context;
         this.requestQueue = Volley.newRequestQueue(context);
 
         this.directionsAPIListener = directionsAPIListener;
+        this.firstRequest = true;
     }
 
     public void requestRoute(LatLng userLocation, McDonalds mcDonalds)
     {
+        this.firstRequest = true;
         sendRequest(Request.Method.GET, getUrlForWaypoints(userLocation, mcDonalds.getLocation()));
     }
 
@@ -60,10 +65,31 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
         return url;
     }
 
+    private String getUrlForWaypoints(ArrayList<LatLng> locations)
+    {
+        String url = "http://145.48.6.80:3000/directions?"
+                + "origin=" + locations.get(0).latitude + "," + locations.get(0).longitude
+                + "&destination=" + locations.get(locations.size() - 1).latitude + "," + locations.get(locations.size() - 1).longitude
+                + "&waypoints=";
+
+        for(int i = 1; i < locations.size() - 1; i++)
+        {
+            url += locations.get(i).latitude + "," + locations.get(i).longitude;
+            if(i < locations.size() - 2)
+                url += "|";
+        }
+
+        url += "&mode=driving"
+            + "&key=" + this.context.getResources().getString(R.string.google_directions_key);
+
+        return url;
+    }
+
     @Override
     public void onResponse(Object response)
     {
         JSONObject jsonObject = (JSONObject)response;
+        String test = jsonObject.toString();
         try
         {
             ArrayList<LatLng> locations = new ArrayList<LatLng>();
@@ -79,19 +105,23 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
                 LatLng southWestBound = new LatLng(southWest.getDouble("lat"), southWest.getDouble("lng"));
 
                 JSONArray legs = routes.getJSONObject(0).getJSONArray("legs");
-                JSONObject leg = legs.getJSONObject(0);
-                JSONArray steps = leg.getJSONArray("steps");
 
-                for(int i = 0; i < steps.length(); i++)
+                for(int l = 0; l < legs.length(); l++)
                 {
-                    JSONObject step = steps.getJSONObject(i);
-                    JSONObject startLocation = step.getJSONObject("start_location");
-                    JSONObject endLocation = step.getJSONObject("end_location");
+                    JSONObject leg = legs.getJSONObject(l);
+                    JSONArray steps = leg.getJSONArray("steps");
 
-                    LatLng lastLocation = (locations.size() != 0) ? (locations.get(locations.size() - 1)) : null;
-                    if(lastLocation == null)
-                        locations.add(new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng")));
-                    locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
+                    for(int i = 0; i < steps.length(); i++)
+                    {
+                        JSONObject step = steps.getJSONObject(i);
+                        JSONObject startLocation = step.getJSONObject("start_location");
+                        JSONObject endLocation = step.getJSONObject("end_location");
+
+                        LatLng lastLocation = (locations.size() != 0) ? (locations.get(locations.size() - 1)) : null;
+                        if(lastLocation == null)
+                            locations.add(new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng")));
+                        locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
+                    }
                 }
 
                 this.northEastBoundary = northEastBound;
