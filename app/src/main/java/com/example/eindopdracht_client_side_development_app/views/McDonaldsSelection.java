@@ -43,6 +43,9 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     private ScaleBounceAnimationSequence scaleBounceAnimationSequenceSearchButton;
     private ScaleBounceAnimationSequence scaleBounceAnimationSequenceSFavoritesButton;
 
+    private boolean listIsSorted;
+    private boolean isShowingFavorites;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -83,6 +86,9 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
         this.scaleBounceAnimationSequenceSearchButton = new ScaleBounceAnimationSequence(findViewById(R.id.btn_SearchInRadius), 0.8f, 1.2f, 500, 1);
         this.scaleBounceAnimationSequenceSFavoritesButton = new ScaleBounceAnimationSequence(findViewById(R.id.btn_ShowFavorites), 0.8f, 1.2f, 500, 1);
+
+        this.listIsSorted = false;
+        this.isShowingFavorites = false;
     }
 
     @Override
@@ -128,6 +134,8 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
             //this.recyclerView.removeAllViewsInLayout();
             this.mcDonaldsAdapter.notifyDataSetChanged();
+            this.listIsSorted = false;
+            this.isShowingFavorites = false;
         }
         catch(Exception e)
         {
@@ -137,6 +145,8 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
 
     public void onShowFavoritesClick(View view)
     {
+        this.listIsSorted = false;
+        this.isShowingFavorites = true;
         this.scaleBounceAnimationSequenceSFavoritesButton.start();
 
         ArrayList<McDonalds> mcDonaldsFavoritesList = new ArrayList<McDonalds>();
@@ -154,14 +164,19 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
     public void onLocationReceived(LatLng location)
     {
         Log.d("onLocationReceived", "Location: " + location.latitude + " : " + location.longitude);
-        ArrayList<McDonalds> mcDonaldsList = new ArrayList<McDonalds>();
-        mcDonaldsList.addAll(this.mcDonaldsList);
-        this.mcDonaldsAdapter.setDataset(sortMcDonaldsByDistance(mcDonaldsList));
-        this.recyclerView.removeAllViewsInLayout();
-        this.mcDonaldsAdapter.notifyDataSetChanged();
+        if(!this.listIsSorted && !this.isShowingFavorites)
+        {
+            ArrayList<McDonalds> mcDonaldsList = new ArrayList<McDonalds>();
+            mcDonaldsList.addAll(this.mcDonaldsList);
+            this.mcDonaldsAdapter.setDataset(sortMcDonaldsByDistance(mcDonaldsList));
+            this.recyclerView.removeAllViewsInLayout();
+            this.mcDonaldsAdapter.notifyDataSetChanged();
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && this.recentAdapter != null)
-            this.recentAdapter.notifyDataSetChanged();
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && this.recentAdapter != null)
+                this.recentAdapter.notifyDataSetChanged();
+
+            this.listIsSorted = true;
+        }
     }
 
     private ArrayList<McDonalds> sortMcDonaldsByDistance(ArrayList<McDonalds> mcDonaldsList)
@@ -172,15 +187,15 @@ public class McDonaldsSelection extends AppCompatActivity implements LocationAPI
         while(mcDonaldsList.size() != 0)
         {
             McDonalds closest = mcDonaldsList.get(0);
-            double closestDistacne = MapUtils.getDistance(lastLocation, closest.getLocation());
+            double closestDistancee = MapUtils.getDistance(lastLocation, closest.getLocation());
 
             for(McDonalds mcDonalds : mcDonaldsList)
             {
                 double distance = MapUtils.getDistance(lastLocation, mcDonalds.getLocation());
-                if(distance < closestDistacne)
+                if(distance < closestDistancee)
                 {
                     closest = mcDonalds;
-                    closestDistacne = distance;
+                    closestDistancee = distance;
                 }
             }
             mcDonaldsListSorted.add(closest);
