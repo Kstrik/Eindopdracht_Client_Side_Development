@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.locationAPIManager = LocationAPIManager.getInstance();
         this.locationAPIManager.setLocationAPIListener(this);
         this.directionsAPIManager = new DirectionsAPIManager(this, this);
-        this.directionsAPIManager.requestRoute(this.locationAPIManager.getLastLocation(), mcDonalds);
+        //this.directionsAPIManager.requestRoute(this.locationAPIManager.getLastLocation(), mcDonalds);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -103,6 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         this.googleMap = googleMap;
         this.googleMap.setMyLocationEnabled(true);
+        this.directionsAPIManager.requestRoute(this.locationAPIManager.getLastLocation(), mcDonalds);
 
         this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override

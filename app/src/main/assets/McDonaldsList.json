@@ -83,6 +83,24 @@
       "phonenumber" : "013 521 3397",
       "latitude" : 51.593033,
       "longitude" : 5.170310
+    },
+    {
+      "address" : "Franklinweg 3, 4207 HX Gorinchem",
+      "phonenumber" : "0183 699 176",
+      "latitude" : 51.841277,
+      "longitude" : 5.005299
+    },
+    {
+      "address" : "Rijksstraatweg 32, 3316 EH Dordrecht",
+      "phonenumber" : "078 651 3059",
+      "latitude" : 51.774166,
+      "longitude" : 4.647419
+    },
+    {
+      "address" : "Kelvinring 46, 2952 BG Alblasserdam",
+      "phonenumber" : "078 693 1595",
+      "latitude" : 51.852853,
+      "longitude" : 4.675848
     }
   ]
 }
